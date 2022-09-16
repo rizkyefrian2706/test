@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const handleClick = () => {
@@ -12,6 +13,24 @@ export default function Home() {
       navMenu.classList.toggle('hidden')
     });
   };
+  const [clientWindowHeight, setClientWindowHeight] = useState("");
+ 
+  const handleScroll = () => {
+    setClientWindowHeight(window.scrollY);
+  };
+
+  useEffect(() => {
+    const header = document.querySelector('#header');
+
+    if (clientWindowHeight > 0) {
+      header.classList.add('navbar-fixed');
+    } else {
+      header.classList.remove('navbar-fixed');
+    }
+    
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  });
 
   return (
     <div>
